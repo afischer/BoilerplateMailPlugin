@@ -6,9 +6,16 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2EE14F221EB6120F001B51CB /* BoilerplateMailPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE14F211EB6120F001B51CB /* BoilerplateMailPlugin.m */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		2E9EED531EB61455002F13B1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2EE14F171EB61177001B51CB /* BoilerplateMailPlugin.mailbundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoilerplateMailPlugin.mailbundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EE14F1A1EB61177001B51CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2EE14F201EB6120F001B51CB /* BoilerplateMailPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoilerplateMailPlugin.h; sourceTree = "<group>"; };
+		2EE14F211EB6120F001B51CB /* BoilerplateMailPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoilerplateMailPlugin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +34,7 @@
 			children = (
 				2EE14F191EB61177001B51CB /* BoilerplateMailPlugin */,
 				2EE14F181EB61177001B51CB /* Products */,
+				2E9EED531EB61455002F13B1 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -42,6 +50,8 @@
 			isa = PBXGroup;
 			children = (
 				2EE14F1A1EB61177001B51CB /* Info.plist */,
+				2EE14F201EB6120F001B51CB /* BoilerplateMailPlugin.h */,
+				2EE14F211EB6120F001B51CB /* BoilerplateMailPlugin.m */,
 			);
 			path = BoilerplateMailPlugin;
 			sourceTree = "<group>";
@@ -56,6 +66,7 @@
 				2EE14F131EB61177001B51CB /* Sources */,
 				2EE14F141EB61177001B51CB /* Frameworks */,
 				2EE14F151EB61177001B51CB /* Resources */,
+				2EE14F231EB61335001B51CB /* Bundle Packing and Deploy Local */,
 			);
 			buildRules = (
 			);
@@ -108,11 +119,29 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2EE14F231EB61335001B51CB /* Bundle Packing and Deploy Local */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle Packing and Deploy Local";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Deploying to local\n/bin/rm -rf ${INSTALL_PATH}/${WRAPPER_NAME}\n/bin/cp -r ${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME} ${INSTALL_PATH}/\n\n# processing UUIDs\nmh_plugin_plist=${INSTALL_PATH}/${WRAPPER_NAME}/Contents/Info.plist\n\nif [ -f /Applications/Mail.app/Contents/Info.plist ]; then\nmh_mail_app_uuid=$(defaults read /Applications/Mail.app/Contents/Info.plist PluginCompatibilityUUID)\nif [[ ! -z \"${mh_mail_app_uuid}\" ]]; then\ndefaults write ${mh_plugin_plist} SupportedPluginCompatibilityUUIDs -array-add \"${mh_mail_app_uuid}\"\n\n#if [[ ${mh_mac_osx_version_p} == *\"10.12\"* ]]; then\n#echo \"RWH:: Adding UUID ${mh_mail_app_uuid} for Sierra\"\ndefaults write ${mh_plugin_plist} Supported10.12PluginCompatibilityUUIDs -array-add \"${mh_mail_app_uuid}\"\n#fi\n\nfi\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2EE14F131EB61177001B51CB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE14F221EB6120F001B51CB /* BoilerplateMailPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +242,7 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = BoilerplateMailPlugin/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.afischer.BoilerplateMailPlugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -225,8 +254,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				INFOPLIST_FILE = BoilerplateMailPlugin/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.afischer.BoilerplateMailPlugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -253,6 +283,7 @@
 				2EE14F1F1EB61177001B51CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
